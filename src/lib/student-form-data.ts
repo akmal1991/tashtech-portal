@@ -8,7 +8,7 @@ export async function studentFormOptions(s: Session) {
   const groups = await sql`select g.id, g.name, g.program_id from student_groups g order by g.name`;
   const customFields = await sql`select field_key, label, field_type, options, is_required from custom_fields where entity = 'student' and is_active order by sort_order, id`;
   return { programs: [...programs], groups: [...groups], customFields: [...customFields] } as never as {
-    programs: { id: number; name: string }[]; groups: { id: number; name: string; program_id: number }[];
+    programs: { id: number; name: string }[]; groups: { id: number; name: string; program_id: number | null }[];
     customFields: { field_key: string; label: string; field_type: string; options: string | null; is_required: boolean }[];
   };
 }

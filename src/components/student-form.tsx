@@ -5,7 +5,7 @@ import { api } from "@/lib/client";
 import { useToast } from "./client-ui";
 
 type Opt = { id: number; name: string };
-type Group = Opt & { program_id: number };
+type Group = Opt & { program_id: number | null };
 type Field = { field_key: string; label: string; field_type: string; options: string | null; is_required: boolean };
 
 export function StudentForm({ initial, programs, groups, customFields, canSensitive, studentId }: {
@@ -18,7 +18,7 @@ export function StudentForm({ initial, programs, groups, customFields, canSensit
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setV((x) => ({ ...x, [k]: e.target.value }));
-  const progGroups = useMemo(() => groups.filter((g) => String(g.program_id) === String(v.program_id)), [groups, v.program_id]);
+  const progGroups = useMemo(() => groups.filter((g) => g.program_id == null || String(g.program_id) === String(v.program_id)), [groups, v.program_id]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

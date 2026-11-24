@@ -63,7 +63,7 @@ export async function buildStudentRow(input: StudentInputT, canSensitive: boolea
   if (input.group_id) {
     const [g] = await sql`select program_id from student_groups where id = ${Number(input.group_id)}`;
     if (!g) throw new ApiError(400, "Unknown group");
-    if (g.program_id !== input.program_id) throw new ApiError(400, "The group does not belong to the selected program");
+    if (g.program_id != null && g.program_id !== input.program_id) throw new ApiError(400, "The group does not belong to the selected program");
   }
   const { passport, jshshir, custom_data, ...rest } = input;
   const row: Record<string, unknown> = { ...rest, custom_data: { ...(existingCustom ?? {}), ...(await validateCustom(custom_data)) } };

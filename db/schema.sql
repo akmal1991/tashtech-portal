@@ -72,12 +72,13 @@ CREATE TABLE IF NOT EXISTS semesters (
 
 CREATE TABLE IF NOT EXISTS student_groups (
   id             serial PRIMARY KEY,
-  program_id     int  NOT NULL REFERENCES programs(id) ON DELETE RESTRICT,
+  program_id     int  REFERENCES programs(id) ON DELETE RESTRICT, -- NULL = shared group (e.g. common first year)
   name           text NOT NULL UNIQUE,
   admission_year int  NOT NULL,
   curator        text
 );
 CREATE INDEX IF NOT EXISTS idx_groups_program ON student_groups(program_id);
+ALTER TABLE student_groups ALTER COLUMN program_id DROP NOT NULL; -- upgrade older databases
 
 -- ============ Users & sessions ============
 CREATE TABLE IF NOT EXISTS users (

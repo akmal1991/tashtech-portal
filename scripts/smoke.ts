@@ -1,7 +1,7 @@
 import postgres from "postgres";
 const db = postgres(process.env.DATABASE_URL!);
 const [st] = await db`select id from students where deleted_at is null order by id limit 1`;
-const [c] = await db`select c.id from courses c join user_course_assignments a on a.course_id = c.id limit 1`;
+const [c] = await db`select c.id from courses c left join user_course_assignments a on a.course_id = c.id order by a.course_id nulls last, c.id limit 1`;
 await db.end();
 const pages = ["/", "/students", "/students?q=kar&status=Active&sort=group&dir=desc", "/students?result=retake", `/students/${st.id}`, `/students/${st.id}/edit`, "/students/new",
   "/courses", "/courses?missing=1", "/courses?sem=all", `/courses/${c.id}`, `/courses/${c.id}/attendance`, "/approvals", "/approvals?tab=mine", "/approvals?tab=history",

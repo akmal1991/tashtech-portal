@@ -55,7 +55,7 @@ export const ENTITIES = {
   groups: {
     table: "student_groups", label: "Groups", singular: "Group", permission: "academic.manage", display: "name", order: "name",
     fields: [
-      { name: "program_id", label: "Program", type: "ref", ref: "programs", required: true },
+      { name: "program_id", label: "Program (blank = shared group)", type: "ref", ref: "programs" },
       { name: "name", label: "Group name", type: "text", required: true },
       { name: "admission_year", label: "Admission year", type: "number", required: true },
       { name: "curator", label: "Curator", type: "text" },

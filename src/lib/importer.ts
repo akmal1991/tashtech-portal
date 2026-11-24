@@ -74,7 +74,7 @@ export async function previewStudents(s: Session, sheet: SheetData, fileName: st
     if (raw.group_name) {
       const g = groups.get(raw.group_name.toUpperCase());
       if (!g) errors.push(`Unknown group "${raw.group_name}"`);
-      else if (programId && g.program_id !== programId) errors.push(`Group ${raw.group_name} does not belong to program ${raw.program_code}`);
+      else if (programId && g.program_id != null && g.program_id !== programId) errors.push(`Group ${raw.group_name} does not belong to program ${raw.program_code}`);
       else groupId = g.id;
     }
     const gender = raw.gender ? ({ m: "Male", male: "Male", erkak: "Male", f: "Female", female: "Female", ayol: "Female" } as Record<string, string>)[raw.gender.toLowerCase()] ?? raw.gender : undefined;

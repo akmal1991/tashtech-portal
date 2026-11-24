@@ -12,7 +12,7 @@ Requirements: [Bun](https://bun.sh) ≥ 1.2 and Docker.
 bun install
 docker compose up -d          # PostgreSQL 16 on localhost:5434
 cp .env.example .env          # then generate ENCRYPTION_KEY and HASH_KEY (64 hex chars each)
-bun run db:reset              # create schema + load demo data
+bun run demo:reset            # EMPTY database only: create schema + load demo data
 bun run dev                   # http://localhost:3000
 ```
 
@@ -27,13 +27,25 @@ bun run dev                   # http://localhost:3000
 
 Demo data: 3 faculties, 5 departments, 6 programs (Bachelor/Master/PhD), 14 groups, 4 academic years (8 semesters; past ones locked), 66 subjects, ~250 students, ~200 courses, ~3,800 enrollments and ~17,700 marks with full history, attendance, pending/approved/rejected change requests.
 
+## Loading real students
+
+```bash
+bun run import:first-year "C:/path/Database TT 2026.xlsx"                 # add to existing data
+bun run import:first-year "C:/path/Database TT 2026.xlsx" --replace-demo  # remove demo data first
+```
+
+The spreadsheet needs columns *Full Name, ID Matricula, Passport Details, Faculty, Group* (header row anywhere near the top). Everything is validated first; on any problem nothing is imported. **Never commit student spreadsheets or `backups/` — this repository is public.**
+
 ## Tests
+
+> The API tests and `demo:reset` are for a **demo database only**. `demo:reset` refuses to run while real student records (IDs starting with TTB) exist.
+
 
 ```bash
 bun run dev &                 # API tests need the running server
 bun test tests                # 8 grading-engine unit tests + 29 end-to-end API tests (all roles)
 bun scripts/smoke.ts          # renders every page as admin / operator / viewer
-bun run db:reset              # tests modify demo data — reset afterwards
+bun run demo:reset            # tests modify demo data — reset afterwards
 ```
 
 ## The three critical mechanisms

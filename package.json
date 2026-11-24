@@ -9,10 +9,11 @@
     "db:up": "docker compose up -d",
     "db:migrate": "bun scripts/migrate.ts",
     "db:seed": "bun scripts/seed.ts",
-    "db:reset": "bun scripts/migrate.ts --reset && bun scripts/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "bun test tests",
-    "smoke": "bun scripts/smoke.ts"
+    "smoke": "bun scripts/smoke.ts",
+    "demo:reset": "bun scripts/migrate.ts --reset --yes-delete-all-data && bun scripts/seed.ts",
+    "import:first-year": "bun scripts/import-first-year.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

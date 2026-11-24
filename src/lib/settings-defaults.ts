@@ -23,8 +23,8 @@ export const BUILTIN_MODULES = [
 
 export const SETTINGS_DEFAULTS = {
   branding: {
-    name: "Tashkent University of Technology",
-    shortName: "Tashkent Tech",
+    name: "TOSHTECH TECHNICAL UNIVERSITY",
+    shortName: "TOSHTECH",
     tagline: "Academic Records Portal",
     primaryColor: "#0b4f8a",
     accentColor: "#c8962e",

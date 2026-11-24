@@ -39,6 +39,8 @@ export default async function StudentProfile({ params }: { params: Promise<{ id:
     ["Faculty", st.faculty_name ?? "—"], ["Department", st.department_name ?? "—"], ["Program", `${st.program_name ?? "—"} (${st.degree_level ?? "—"})`],
     ["Group", st.group_name ?? "—"], ["Year / Semester", `${st.current_year ?? "—"} / ${st.current_semester ?? "—"}`], ["Study mode", st.study_mode],
     ["Enrollment date", fmtDate(st.enrollment_date)], ["Status", <Badge key="s">{st.status}</Badge>],
+  ];
+  const extra: [string, React.ReactNode][] = [
     ...custom.map((c) => [c.label, c.field_type === "checkbox" ? (st.custom_data?.[c.field_key] ? "Yes" : "No") : String(st.custom_data?.[c.field_key] ?? "—")] as [string, React.ReactNode]),
   ];
   const Dl = ({ items }: { items: [string, React.ReactNode][] }) => (
@@ -73,6 +75,9 @@ export default async function StudentProfile({ params }: { params: Promise<{ id:
       <div className="grid gap-5 lg:grid-cols-2">
         <Card title="Personal information"><Dl items={info} /></Card>
         <Card title="Academic information"><Dl items={academic} />{st.notes && <p className="mt-4 rounded-lg bg-surface-2 p-3 text-sm"><span className="text-xs text-muted">Notes: </span>{st.notes}</p>}</Card>
+        {extra.length > 0 && <Card title="Additional information" className="lg:col-span-2"><dl className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-4">
+          {extra.map(([k, v]) => <div key={k} className="min-w-0"><dt className="text-xs text-muted">{k}</dt><dd className="mt-0.5 font-medium [overflow-wrap:anywhere]">{v}</dd></div>)}
+        </dl></Card>}
       </div>
       {h && (
         <div className="mt-5 space-y-5">
